@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from .models import Room, Message, Topic
+from .room_form import RoomForm
 
 
 def home(request):
@@ -16,5 +17,6 @@ def room(request, pk):
     return render(request, 'main/room.html', context)
 
 def create_room(request):
-    context = {}
+    form = RoomForm()
+    context = {'form': form}
     return render(request, 'main/room_form.html', context)

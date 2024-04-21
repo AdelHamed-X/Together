@@ -5,6 +5,7 @@ from .models import Room, Message, Topic
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from .room_form import RoomForm
 
 
@@ -50,6 +51,7 @@ def room(request, pk):
 
     return render(request, 'main/room.html', context)
 
+@login_required(login_url='login')
 def create_room(request):
     form = RoomForm()
     if request.method == 'POST':

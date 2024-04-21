@@ -2,8 +2,31 @@ from django.shortcuts import render, redirect
 from django.db.models import Q
 from django.http import HttpResponse
 from .models import Room, Message, Topic
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login, logout
+from django.contrib import messages
 from .room_form import RoomForm
 
+
+def UserLogin(request):
+    if request.method == 'POST':
+        username = request.POST.get('Username')
+        password = request.POST.get('Password')
+
+        user = authenticate(request, username=username, password=password)
+
+        if not user:
+            messages.error(request, 'Username or Password is not correct')
+        else:
+            login(request, user)
+            return redirect('home')
+        
+    context ={}
+    return render(request, 'main/user_login.html', context)
+
+def UserLogout(request):
+    logout(request)
+    return redirect('login')
 
 def home(request):
     q = request.GET.get('q') if request.GET.get('q') != None else ''

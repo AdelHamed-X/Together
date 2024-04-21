@@ -9,6 +9,16 @@
     <div>
       {% include 'main/navbar.html' %}
 
+      {% if messages %}
+      
+        {% for mess in messages %}
+
+          {{ mess }}
+
+        {% endfor %}
+
+      {% endif %}
+
       <div>
         {% block content %}
         

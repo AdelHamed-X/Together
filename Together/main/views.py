@@ -4,6 +4,7 @@ from django.http import HttpResponse
 from .models import Room, Message, Topic
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .room_form import RoomForm
@@ -11,7 +12,7 @@ from .room_form import RoomForm
 
 def UserLogin(request):
     if request.method == 'POST':
-        username = request.POST.get('Username')
+        username = request.POST.get('Username').lower()
         password = request.POST.get('Password')
 
         user = authenticate(request, username=username, password=password)
@@ -28,6 +29,21 @@ def UserLogin(request):
 def UserLogout(request):
     logout(request)
     return redirect('login')
+
+def UserRegisteration(request):
+    form = UserCreationForm()
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.username = user.username.lower()
+            user.save()
+            return redirect('login')
+        else:
+            messages.error(request, 'An error occurred during registeration!')
+
+    context = {'form': form}
+    return render(request, 'main/registeration_form.html', context)
 
 def home(request):
     q = request.GET.get('q') if request.GET.get('q') != None else ''
@@ -55,9 +71,9 @@ def room(request, pk):
 def create_room(request):
     form = RoomForm()
     if request.method == 'POST':
-        form = RoomForm(request.POST)
-        if form.is_valid():
-            form.save()
+        room = RoomForm(request.POST)
+        if room.is_valid():
+            room.save()
         return redirect('home')
     context = {'form': form}
     return render(request, 'main/room_form.html', context)

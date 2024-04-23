@@ -31,6 +31,7 @@ class Message(models.Model):
     """ Message Model that represents the messages table """
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
     body = models.TextField()
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
 

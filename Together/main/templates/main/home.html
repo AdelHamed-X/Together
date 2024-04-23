@@ -5,11 +5,13 @@
 <style>
     .home-container {
         display: grid;
-        grid-template-columns: 1fr 3fr;
+        grid-template-columns: 1fr 1fr 3fr;
     }
 </style>
 
 <div class="home-container">
+
+    Hello {{ request.user }}
 
     <div>
         <h3>
@@ -41,7 +43,7 @@
                 <a href="{% url 'update_room' room.id %}">Edit</a> <br>
                 <a href="{% url 'delete_room' room.id %}">Delete Room</a> <br>
                 {% endif %}
-                
+
                 <h4>
                     {{ room.id }} -- <a href="{% url 'room' room.id %}">{{ room.name }}</a>
                 </h4>

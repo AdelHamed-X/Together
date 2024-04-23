@@ -63,10 +63,12 @@ def home(request):
 
 def room(request, pk):
     room = Room.objects.get(id=pk)
+
+    # List all messages and order them
     room_messages = room.message_set.all().order_by(
         '-created_at'
     )
-
+    # Get the message from the request, save it and show it
     if request.method == 'POST':
         message = Message.objects.create(
             room=room,
@@ -77,8 +79,18 @@ def room(request, pk):
         return redirect('room', pk=room.id)
 
     context = {'room': room, 'room_messages': room_messages}
-
     return render(request, 'main/room.html', context)
+
+@login_required(login_url='login')
+def deleteMessage(request, pk):
+    message = Message.objects.get(id=pk)
+    room_id = message.room.id
+    
+    if request.method == 'POST':
+        message.delete()
+        return redirect('room', pk=room_id)
+    context = {'obj': message}
+    return render(request, 'main/delete.html', context)
 
 @login_required(login_url='login')
 def create_room(request):
@@ -107,6 +119,6 @@ def delete_room(request, pk):
     if request.method == 'POST':
         room.delete()
         return redirect('home')
-    context = {'room': room}
+    context = {'obj': room}
     return render(request, 'main/delete.html', context)
 

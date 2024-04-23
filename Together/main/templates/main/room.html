@@ -8,7 +8,11 @@
     {% for message in room_messages %}
         {{ message }} <br>
 
-        @ {{ message.user }}  {{ message.created_at|timesince }} ago
+        @ {{ message.user }}  {{ message.created_at|timesince }} ago <br>
+
+        <p>
+            <a href="{% url 'delete-message' message.id %}">Delete</a>
+        </p>
         <hr>
 
     {% endfor %}

@@ -52,12 +52,18 @@ def home(request):
         Q(description__icontains=q) |
         Q(name__icontains=q)
     )
+    
+    q = request.GET.get('q') if request.GET.get('q') != None else ''
+    room_messages = Message.objects.filter(
+        Q(room__topic__name__icontains=q)
+    )
 
     topics = Topic.objects.all()
 
     rooms_count = rooms.count()
 
-    context = {"rooms": rooms, "topics": topics, "rooms_count": rooms_count}
+    context = {"rooms": rooms, "topics": topics, "rooms_count": rooms_count,
+               "room_messages": room_messages}
     
     return render(request, 'main/home.html', context)
 

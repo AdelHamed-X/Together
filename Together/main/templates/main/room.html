@@ -9,10 +9,12 @@
         {{ message }} <br>
 
         @ {{ message.user }}  {{ message.created_at|timesince }} ago <br>
-
+        
+        {% if request.user == message.user %}
         <p>
             <a href="{% url 'delete-message' message.id %}">Delete</a>
         </p>
+        {% endif %}
         <hr>
 
     {% endfor %}

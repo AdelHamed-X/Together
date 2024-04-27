@@ -128,3 +128,8 @@ def delete_room(request, pk):
     context = {'obj': room}
     return render(request, 'main/delete.html', context)
 
+def profile(request, pk):
+    user = User.objects.get(id=pk)
+    context = {}
+    return render(request, 'main/profile.html', context)
+

@@ -104,12 +104,17 @@ def deleteMessage(request, pk):
 @login_required(login_url='login')
 def create_room(request):
     form = RoomForm()
+
     if request.method == 'POST':
-        room = RoomForm(request.POST)
-        if room.is_valid():
+        form = RoomForm(request.POST)
+        if form.is_valid():
+            room = form.save(commit=False)
+            room.host = request.user
             room.save()
         return redirect('home')
-    context = {'form': form}
+    context = {
+        'form': form,
+    }
     return render(request, 'main/room_form.html', context)
 
 def update_room(request, pk):

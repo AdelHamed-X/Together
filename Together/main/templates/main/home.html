@@ -5,44 +5,22 @@
 <style>
     .home-container {
         display: grid;
-        grid-template-columns: 1fr 1fr 3fr 2fr;
+        grid-template-columns: 1fr 3fr 2fr;
     }
 </style>
 
 <div class="home-container">
-
-    Hello {{ request.user }}
-
     <div>
+        Hello {{ request.user }}
         {% include 'main/topics_component.html' %}
     </div>
 
     <div>
-        <div>
-            {{ rooms_count }} room{% if rooms_count > 1 or rooms_count == 0%}s{% endif %} available
-        </div>
-        <a href="{% url 'create_room' %}">Create Room</a>
-
-        <div>
-            {% for room in rooms %}
-            <div>
-                {% if request.user == room.host %}
-                <a href="{% url 'update_room' room.id %}">Edit</a> <br>
-                <a href="{% url 'delete_room' room.id %}">Delete Room</a> <br>
-                {% endif %}
-
-                <h4>
-                    {{ room.id }} -- <a href="{% url 'room' room.id %}">{{ room.name }}</a>
-                </h4>
-                {{ room.topic.name }}
-                <hr>
-            </div>
-            {% endfor %}
-        </div>
+        {% include 'main/feed_component.html' %}
     </div>
 
     <div>
-        {% include 'main/feed_component.html' %}
+        {% include 'main/activity_component.html' %}
     </div>
 
 </div>

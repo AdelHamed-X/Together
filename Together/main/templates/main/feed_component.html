@@ -1,13 +1,25 @@
-<h3>
-    Recent Activity
-</h3>
-<hr />
+<div>
+    {{ rooms_count }} room{% if rooms_count > 1 or rooms_count == 0%}s{% endif %} available
+</div>
+<a href="{% url 'create_room' %}">Create Room</a>
+<div>
+    {% for room in rooms %}
+    <div>
+        {% if request.user == room.host %}
+        <a href="{% url 'update_room' room.id %}">Edit</a> <br>
+        <a href="{% url 'delete_room' room.id %}">Delete Room</a> <br>
+        {% endif %}
 
-{% for message in room_messages %}
-
-<p> <a href="{% url 'profile' message.user.id %}">@{{ message.user }}</a>  replied to "{{ message.room }}" {{ message.created_at|timesince }}</p>
-<p><h4>{{ message }}</h4></p>
-<hr />
-
-{% endfor %}
-<hr />
+        <h4>
+            {{ room.id }} -- <a href="{% url 'room' room.id %}">{{ room.name }}</a>
+        </h4>
+        <h5>
+            <a href="{% url 'profile' room.host.id %}">
+                @{{ room.host }}
+            </a>
+        </h5>
+        {{ room.topic.name }}
+        <hr>
+    </div>
+    {% endfor %}
+</div>

@@ -84,7 +84,10 @@ def room(request, pk):
         message.save()
         return redirect('room', pk=room.id)
 
-    context = {'room': room, 'room_messages': room_messages}
+    context = {
+        'room': room,
+        'room_messages': room_messages,
+    }
     return render(request, 'main/room.html', context)
 
 @login_required(login_url='login')
@@ -130,8 +133,14 @@ def delete_room(request, pk):
 
 def profile(request, pk):
     user = User.objects.get(id=pk)
+    topics = Topic.objects.all()
+    room_messages = user.message_set.all()
+    rooms = user.room_set.all()
     context = {
-        'user': user
+        'user': user,
+        'topics': topics,
+        'room_messages': room_messages,
+        'rooms': rooms
     }
     return render(request, 'main/profile.html', context)
 

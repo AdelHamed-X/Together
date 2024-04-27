@@ -14,14 +14,12 @@
           </path>
         </svg>
         <input name="q" placeholder="Search for rooms..." />
-      </label>you
+      </label>
     </form>
     <nav class="header__menu">
-      <!-- Not Logged In -->
 
-      
-      {% if request.user.is_authenticated %}
       <!-- Logged In -->
+      {% if request.user.is_authenticated %}
       <div class="header__user">
         <a href="profile.html">
           <div class="avatar avatar--medium active">
@@ -37,6 +35,7 @@
         </button>
       </div>
       {% else %}
+      <!-- Not Logged In -->
       <a href="{% url 'login' %}">
         <img src="./assets/avatar.svg" />
         <p>Login</p>

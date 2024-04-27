@@ -130,6 +130,8 @@ def delete_room(request, pk):
 
 def profile(request, pk):
     user = User.objects.get(id=pk)
-    context = {}
+    context = {
+        'user': user
+    }
     return render(request, 'main/profile.html', context)
 

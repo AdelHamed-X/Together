@@ -69,6 +69,7 @@ def home(request):
 
 def room(request, pk):
     room = Room.objects.get(id=pk)
+    persons = room.participants_set.all()
 
     # List all messages and order them
     room_messages = room.message_set.all().order_by(
@@ -87,6 +88,7 @@ def room(request, pk):
     context = {
         'room': room,
         'room_messages': room_messages,
+        'persons': persons
     }
     return render(request, 'main/room.html', context)
 

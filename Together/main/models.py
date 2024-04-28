@@ -15,13 +15,14 @@ class Room(models.Model):
     """ Room Model that represents the rooms table """
     host = models.ForeignKey(User, on_delete=models.CASCADE)
     topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
+    participants = models.ManyToManyField(User, related_name='participants', blank=True)
     name = models.CharField(max_length=200)
     description = models.TextField(null=True, blank=True)
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        ordering = ['-updated_at', '-created_at']
+        ordering = ['-created_at', '-updated_at']
 
     def __str__(self) -> str:
         return self.name
@@ -36,5 +37,5 @@ class Message(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:
-            return self.body[0:50]
+            return self.body[0:25]
     

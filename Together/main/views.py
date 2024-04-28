@@ -8,6 +8,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .room_form import RoomForm
+from .room_form import UserForm
 
 
 def UserLogin(request):
@@ -67,6 +68,7 @@ def home(request):
     
     return render(request, 'main/home.html', context)
 
+@login_required(login_url='login')
 def room(request, pk):
     room = Room.objects.get(id=pk)
     persons = room.participants.all()
@@ -100,7 +102,7 @@ def deleteMessage(request, pk):
     
     if request.method == 'POST':
         message.delete()
-        return redirect('room', pk=room_id)
+        return redirect('home')
     context = {'obj': message}
     return render(request, 'main/delete.html', context)
 
@@ -167,3 +169,16 @@ def profile(request, pk):
     }
     return render(request, 'main/profile.html', context)
 
+@login_required(login_url='login')
+def update_profile(request, pk):
+    user = request.user
+    form = UserForm(instance=user)
+
+    if request.method == 'POST':
+        form = UserForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            return redirect('profile', pk=user.id)
+
+    context = {'form': form}
+    return render(request, 'main/update-user.html', context)

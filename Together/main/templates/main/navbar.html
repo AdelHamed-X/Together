@@ -2,8 +2,8 @@
 <header class="header header--loggedIn">
   <div class="container">
     <a href="/" class="header__logo">
-      <img src="{% static 'images/logo.svg' %}" />
-      <h1>StudyBuddy</h1>
+      <img src="{% static 'images/together-logo.png' %}" />
+      <h1>Together</h1>
     </a>
     <form method="GET" action="{% url 'home' %}" class="header__search">
       {% csrf_token %}

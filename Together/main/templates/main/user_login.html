@@ -14,10 +14,19 @@
         <div class="layout__body">
           <h2 class="auth__tagline">Find your study partner</h2>
 
-          <form class="form" action="#">
+          {% if messages %}
+          <ul class="messages">
+            {% for mess in messages %}
+            <li>{{ mess }}</li>
+            {% endfor %}
+          </ul>
+          {% endif %}
+
+          <form class="form" method="POST" action="">
+            {% csrf_token %}
             <div class="form__group form__group">
               <label for="room_name">Username</label>
-              <input id="username" name="username" type="text" placeholder="e.g. dennis_ivy" />
+              <input id="username" name="username" type="text" placeholder="username" />
             </div>
             <div class="form__group">
               <label for="password">Password</label>
@@ -52,7 +61,7 @@
 
           <div class="auth__action">
             <p>Haven't signed up yet?</p>
-            <a href="signup.html" class="btn btn--link">Sign Up</a>
+            <a href="{% url 'registeration' %}" class="btn btn--link">Sign Up</a>
           </div>
         </div>
       </div>

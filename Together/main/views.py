@@ -13,8 +13,8 @@ from .room_form import UserForm
 
 def UserLogin(request):
     if request.method == 'POST':
-        username = request.POST.get('Username').lower()
-        password = request.POST.get('Password')
+        username = request.POST.get('username').lower()
+        password = request.POST.get('password')
 
         user = authenticate(request, username=username, password=password)
 

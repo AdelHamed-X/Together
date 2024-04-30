@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+from os import getenv, getcwd
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -82,6 +83,12 @@ WSGI_APPLICATION = 'Together.wsgi.application'
 
 DATABASES = {
     'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'togther',
+        'USER': getenv('DB_USERNAME'),
+        'PASSWORD': getenv('DB_PASSWORD'),
+        'HOST': getenv('DB_HOST'),
+        'PORT': getenv('DB_PORT'),
     }
 }
 
@@ -137,3 +144,14 @@ STORAGES = {
         "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
     },
 }
+
+AWS_S3_FILE_OVERWRITE = False
+AWS_QUERYSTRING_AUTH = False
+
+AWS_ACCESS_KEY_ID = getenv('AWS_ACCESS_KEY')
+AWS_SECRET_ACCESS_KEY = getenv('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = getenv('AWS_BUCKET_NAME')
+
+
+if getcwd() == '/app':
+    DEBUG = False

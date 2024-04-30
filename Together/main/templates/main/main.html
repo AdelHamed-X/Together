@@ -12,9 +12,7 @@
 </head>
 
 <body>
-  {% if request.user.is_authenticated %}
-    {% include 'main/navbar.html' %}
-  {% endif %}
+  {% include 'main/navbar.html' %}
   
   {% block content %}
   

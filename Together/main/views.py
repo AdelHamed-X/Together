@@ -119,7 +119,7 @@ def create_room(request):
             host=request.user,
             topic=topic,
             name=request.POST.get('name'),
-            description=request.POST.get('desription')
+            description=request.POST.get('description')
         )
         return redirect('home')
 

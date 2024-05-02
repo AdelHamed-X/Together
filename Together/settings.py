@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     'main.apps.MainConfig',
 
     'rest_framework',
-    
+    'django.contrib.sites',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',

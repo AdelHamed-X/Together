@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 from pathlib import Path
 import os
 
+SITE_ID = 2
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -28,7 +30,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -41,8 +42,21 @@ INSTALLED_APPS = [
 
     'main.apps.MainConfig',
 
-    'rest_framework',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
 ]
+
+SOCIALACCOUNT_PROVIDERS = {
+    "google": {
+        'SCOPE': [
+            'profile', 'email'
+        ],
+        'AUTH_PARAMS': {'access_type': 'online'}
+    }
+}
 
 AUTH_USER_MODEL = 'main.User'
 
@@ -57,6 +71,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
 ROOT_URLCONF = 'Together.urls'
@@ -89,10 +104,10 @@ WSGI_APPLICATION = 'Together.wsgi.application'
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql',
 #         'NAME': 'togther',
-#         'USER': os.getenv('DB_USERNAME'),
-#         'PASSWORD': os.getenv('DB_PASSWORD'),
-#         'HOST': os.getenv('DB_HOST'),
-#         'PORT': os.getenv('DB_PORT'),
+#         'USER': os.environ.get('DB_USERNAME'),
+#         'PASSWORD': os.environ.get('DB_PASSWORD'),
+#         'HOST': 'database-1.cpcc4ss8ijnd.us-east-1.rds.amazonaws.com',
+#         'PORT': os.environ.get('DB_PORT'),
 #     }
 # }
 
@@ -153,10 +168,11 @@ MEDIA_ROOT = BASE_DIR / 'static/images'
 #     "default": {
 #         "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
 #     },
-#     # "staticfiles": {
-#     #     "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
-#     # },
+#     "staticfiles": {
+#         "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
+#     },
 # }
+
 DEFAULT_UTO_FIELD = 'djago.db.models.BigAutoField'
 
 CORS_ALLOW_ALL_ORIGINS = True
@@ -172,3 +188,11 @@ AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_BUCKET_NAME')
 
 if os.getcwd() == '/app':
     DEBUG = False
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend'
+)
+
+LOGIN_REDIRED_URL = '/'
+LOGOUT_REDIRED_URL = '/'

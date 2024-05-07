@@ -99,23 +99,23 @@ WSGI_APPLICATION = 'Together.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'togther',
-        'USER': os.environ.get('DB_USERNAME'),
-        'PASSWORD': os.environ.get('DB_PASSWORD'),
-        'HOST': 'database-1.cpcc4ss8ijnd.us-east-1.rds.amazonaws.com',
-        'PORT': os.environ.get('DB_PORT'),
-    }
-}
-
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'togther',
+#         'USER': os.environ.get('DB_USERNAME'),
+#         'PASSWORD': os.environ.get('DB_PASSWORD'),
+#         'HOST': 'database-1.cpcc4ss8ijnd.us-east-1.rds.amazonaws.com',
+#         'PORT': os.environ.get('DB_PORT'),
 #     }
 # }
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -151,37 +151,39 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = 'https://s3.amazonaws.com/togther_bucket/static/syles/'
-MEDIA_URL = 'https://s3.amazonaws.com/togther_bucket/static/images/'
+# STATIC_URL = 'https://s3.amazonaws.com/togther_bucket/static/syles/'
+# MEDIA_URL = 'https://s3.amazonaws.com/togther_bucket/static/images/'
 
-# STATICFILES_DIRS = [
-#     BASE_DIR / 'static'
-# ]
+STATIC_URL = 'static/'
 
-# MEDIA_ROOT = BASE_DIR / 'static/images'
+STATICFILES_DIRS = [
+    BASE_DIR / 'static'
+]
+
+MEDIA_ROOT = BASE_DIR / 'static/images'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
-STORAGES = {
-    "default": {
-        "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
-    },
-    "staticfiles": {
-        "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
-    },
-}
+# STORAGES = {
+#     "default": {
+#         "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
+#     },
+#     "staticfiles": {
+#         "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
+#     },
+# }
 
 DEFAULT_UTO_FIELD = 'djago.db.models.BigAutoField'
 
 CORS_ALLOW_ALL_ORIGINS = True
 
-AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY')
-AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
-# AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_BUCKET_NAME')
-AWS_STORAGE_BUCKET_NAME = 'togther-bucket'
+# AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY')
+# AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
+# # AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_BUCKET_NAME')
+# AWS_STORAGE_BUCKET_NAME = 'togther-bucket'
 
-AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+# AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
 
 AWS_S3_FILE_OVERWRITE = False
 AWS_QUERYSTRING_AUTH = False
@@ -189,10 +191,13 @@ AWS_QUERYSTRING_AUTH = False
 if os.getcwd() == '/app':
     DEBUG = False
 
-AUTHENTICATION_BACKENDS = (
-    'django.contrib.auth.backends.ModelBackend',
-    'allauth.account.auth_backends.AuthenticationBackend'
-)
+# AUTHENTICATION_BACKENDS = (
+#     'django.contrib.auth.backends.ModelBackend',
+#     'allauth.account.auth_backends.AuthenticationBackend'
+# )
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+
+# IGNORE LOGIN CONSENT VERIFICATION
+SOCIALACCOUNT_LOGIN_ON_GET = True

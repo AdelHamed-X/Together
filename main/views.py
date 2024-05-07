@@ -173,8 +173,10 @@ def update_profile(request, pk):
     form = UserForm(instance=user)
 
     if request.method == 'POST':
-        form = UserForm(request.POST, instance=user)
+        form = UserForm(request.POST, request.FILES, instance=user)
         if form.is_valid():
+            user.username = request.POST.get('username')
+            user.email = request.POST.get('email')
             form.save()
             return redirect('profile', pk=user.id)
 

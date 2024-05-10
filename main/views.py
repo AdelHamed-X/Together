@@ -167,6 +167,7 @@ def profile(request, pk):
     }
     return render(request, 'main/profile.html', context)
 
+
 @login_required(login_url='login')
 def update_profile(request, pk):
     user = request.user
@@ -177,7 +178,8 @@ def update_profile(request, pk):
         if form.is_valid():
             user.username = request.POST.get('username')
             user.email = request.POST.get('email')
-            form.save()
+            user.avatar = request.POST.get('avatar')
+            user.save()
             return redirect('profile', pk=user.id)
 
     context = {'form': form}
